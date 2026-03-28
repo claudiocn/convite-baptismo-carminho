@@ -10,16 +10,15 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#dfb3b5">
     
-    
     <title>Convite de Batismo - Carminho Novais</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Allura&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
-
 
     <style>
         body {
             margin: 0;
             padding: 0;
-            background-color: #dfb3b5 !important; /* Cor idêntica à do convite */
+            background-color: #dfb3b5 !important; 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -28,23 +27,32 @@
             overflow: hidden; 
         }
 
-        .secondbody{
-            background-color: #f0f0f0;
-        }
-
-        /* Contentor principal do convite */
+        /* --- LOGICA DE LOADING E BLUR --- */
         .invitation-card {
             background-color: #dfb3b5; 
             width: 100%;
             max-width: 480px; 
-            height: 800px;
+            height: 100dvh; /* Garante que ocupa a altura total sem scroll */
             position: relative;
             box-shadow: 0 15px 35px rgba(0,0,0,0.15);
             overflow: hidden;
             box-sizing: border-box;
+
+            /* Estado inicial: Escondido e desfocado */
+            opacity: 0;
+            filter: blur(20px);
+            transform: scale(1.05); /* Pequeno efeito de zoom out ao revelar */
+            transition: opacity 1.2s ease-out, filter 1.2s ease-out, transform 1.2s ease-out;
         }
 
-        /* Secção Esquerda - Elemento Vertical */
+        /* Classe aplicada via JS quando as fontes estiverem prontas */
+        .invitation-card.loaded {
+            opacity: 1;
+            filter: blur(0);
+            transform: scale(1);
+        }
+
+        /* --- ELEMENTOS DO CONVITE --- */
         .vertical-element-container {
             position: absolute;
             left: 10%; 
@@ -57,7 +65,6 @@
             color: #ffffff;
         }
 
-        /* Desenho da Cruz */
         .cross {
             width: 3px;
             height: 188px;
@@ -79,7 +86,6 @@
             border-radius: 1px;
         }
 
-        /* Palavra Batismo */
         .batismo {
             font-family: 'Allura', cursive;
             font-size: 130px;
@@ -94,7 +100,6 @@
             clip-path: inset(-9px 5px 0px 0px);
         }
 
-        /* Secção Direita - Detalhes do Evento */
         .details-container {
             position: absolute;
             right: 8%;
@@ -106,14 +111,6 @@
             letter-spacing: 1.5px;
         }
 
-        .details-container p {
-            margin: 0 0 15px 0;
-            font-size: 11px;
-            font-weight: 300;
-            line-height: 1.6;
-            text-transform: uppercase;
-        }
-
         .details-container h1 {
             font-size: 26px;
             font-weight: 700;
@@ -122,39 +119,30 @@
             text-transform: uppercase;
         }
 
-        .highlight {
-            font-weight: 500 !important;
+        .details-container p {
+            margin: 0 0 15px 0;
+            font-size: 11px;
+            font-weight: 300;
+            line-height: 1.6;
+            text-transform: uppercase;
         }
 
-        .small-text {
-            font-size: 9px;
-            opacity: 0.9;
-        }
+        .highlight { font-weight: 500 !important; }
+        .small-text { font-size: 9px; opacity: 0.9; }
+        .section-title { font-size: 10px; font-weight: 500; margin-bottom: 2px !important; opacity: 0.8; }
 
-        .section-title {
-            font-size: 10px;
-            font-weight: 500;
-            margin-bottom: 2px !important;
-            opacity: 0.8;
-        }
-
-        /* --- NOVOS ESTILOS PARA AS MORADAS CLICÁVEIS --- */
+        /* Moradas interativas */
         .clickable-location {
             cursor: pointer;
             margin-bottom: 15px;
-            -webkit-tap-highlight-color: transparent; /* Remove a caixa azul ao clicar no telemóvel */
+            -webkit-tap-highlight-color: transparent;
         }
 
         .clickable-location p.location-name {
             margin: 0;
             display: inline-block;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.5); /* Tracejado para indicar clique */
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.5);
             padding-bottom: 2px;
-            transition: opacity 0.3s;
-        }
-
-        .clickable-location:hover p.location-name {
-            opacity: 0.8;
         }
 
         .arrow {
@@ -162,69 +150,44 @@
             display: inline-block;
             transition: transform 0.3s ease;
             margin-left: 4px;
-            vertical-align: middle;
         }
 
         .hidden-details {
             max-height: 0;
             overflow: hidden;
             opacity: 0;
-            transition: max-height 0.4s ease, opacity 0.4s ease, margin-top 0.4s ease;
+            transition: all 0.4s ease;
         }
 
-        /* Quando a morada está visível */
         .hidden-details.open {
-            max-height: 80px; /* Altura suficiente para o texto e o botão */
+            max-height: 100px;
             opacity: 1;
-            margin-top: 6px;
+            margin-top: 8px;
         }
 
-        /* Botão Minimalista do Mapa */
         .map-btn {
             display: inline-block;
             margin-top: 8px;
-            padding: 5px 12px;
+            padding: 6px 14px;
             border: 1px solid #ffffff;
-            border-radius: 20px; /* Bordas arredondadas elegantes */
+            border-radius: 20px;
             color: #ffffff;
             text-decoration: none;
             font-size: 8px;
             font-weight: 500;
-            letter-spacing: 1px;
             text-transform: uppercase;
-            transition: all 0.3s ease;
         }
 
-        .map-btn:hover, .map-btn:active {
-            background-color: #ffffff;
-            color: #dfb3b5; /* Inverte a cor para o fundo do convite */
-        }
-
-        /* Estilo para os Links do WhatsApp */
         .whatsapp-link {
             color: #ffffff;
             text-decoration: none;
-            transition: opacity 0.3s ease;
         }
 
-        .whatsapp-link:hover {
-            opacity: 0.7;
-        }
-
-        /* Ajustes para telemóveis normais */
+        /* Responsividade */
         @media (max-width: 480px) {
-            .invitation-card {
-                height: 100vh;
-                height: 100dvh; 
-                max-width: 100%;
-                box-shadow: none;
-            }
-            .vertical-element-container {
-                left: 10%;
-            }
+            .invitation-card { height: 100dvh !important; max-width: 100%; box-shadow: none; }
         }
 
-        /* Ajuste de segurança para ecrãs pequenos */
         @media (max-height: 720px), (max-width: 409px) {
             .batismo { font-size: 115px; margin-left: 10px; }
             .cross { height: 140px; margin-bottom: 107px; }
@@ -235,20 +198,16 @@
 </head>
 <body>
 
-    <div class="invitation-card">
+    <div class="invitation-card" id="main-card">
         
         <div class="vertical-element-container">
-            <div class="cross">
-                <div class="cross-bar"></div>
-            </div>
+            <div class="cross"><div class="cross-bar"></div></div>
             <span class="batismo">Batismo</span>
         </div>
 
         <div class="details-container">
             <p>Convidamos-vos a celebrar<br>o batismo da nossa filha</p>
-            
             <h1>Carminho Novais</h1>
-            
             <p class="highlight">Sábado, 30 de Maio de 2026<br>às 11H00</p>
             
             <p class="section-title">Cerimónia</p>
@@ -256,7 +215,7 @@
                 <p class="location-name">Igreja Matriz de Barcelos <span class="arrow">▼</span></p>
                 <div id="detalhes-cerimonia" class="hidden-details">
                     <span class="small-text">Rua Dr. Miguel Fonseca, Barcelos</span><br>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Igreja+Matriz+de+Barcelos" target="_blank" class="map-btn" onclick="event.stopPropagation();">Ver no Mapa</a>
+                    <a href="https://maps.google.com/?q=Igreja+Matriz+de+Barcelos" target="_blank" class="map-btn" onclick="event.stopPropagation();">Ver no Mapa</a>
                 </div>
             </div>
             
@@ -264,23 +223,30 @@
             <div class="clickable-location" onclick="toggleDetails('detalhes-rececao', this)">
                 <p class="location-name">MOCHO Guest Farm <span class="arrow">▼</span></p>
                 <div id="detalhes-rececao" class="hidden-details">
-                    <span class="small-text">Rua da Silveira nº 161, Alheira, Barcelos</span><br>
-                    <a href="https://maps.app.goo.gl/GiBwYpsUk5NX7UDk9" target="_blank" class="map-btn" onclick="event.stopPropagation();">Ver no Mapa</a>
+                    <span class="small-text">Rua da Silveira nº 161, Alheira</span><br>
+                    <a href="https://maps.google.com/?q=MOCHO+Guest+Farm+Barcelos" target="_blank" class="map-btn" onclick="event.stopPropagation();">Ver no Mapa</a>
                 </div>
             </div>
             
             <p style="margin-top: 30px;">
                 CONFIRMAR PRESENÇA ATÉ 15 DE MAIO<br>
                 <span class="small-text">
-                    <a href="https://wa.me/351927070805" class="whatsapp-link" target="_blank">Cláudio 927 070 805</a> &nbsp;|&nbsp; 
+                    <a href="https://wa.me/351927070805" class="whatsapp-link" target="_blank">Cláudio 927 070 805</a>  |  
                     <a href="https://wa.me/351925802578" class="whatsapp-link" target="_blank">Tânia 925 802 578</a>
                 </span>
             </p>
         </div>
-
     </div>
 
     <script>
+        // Função para detetar quando as fontes estão prontas
+        document.fonts.ready.then(function () {
+            // Adicionamos um pequeno delay de 300ms para garantir que o motor de renderização estabilizou
+            setTimeout(function() {
+                document.getElementById('main-card').classList.add('loaded');
+            }, 300);
+        });
+
         function toggleDetails(id, element) {
             const details = document.getElementById(id);
             const arrow = element.querySelector('.arrow');
