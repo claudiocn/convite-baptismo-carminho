@@ -1,0 +1,57 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #dfb3b5 !important; /* Mudar para rosa para não haver bordas cinzentas */
+  display: block; /* Remove o flex */
+  overflow: hidden;
+}
+
+/* --- LÓGICA DE REVELAÇÃO --- */
+.invitation-thumbnail {
+  background-color: #dfb3b5;
+  width: 1200px;
+  height: 630px;
+  position: absolute;
+  box-shadow: none;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.invitation-thumbnail .vertical-element-container {
+  top: 13%;
+  left: 3%;
+}
+
+.invitation-thumbnail .details-container {
+  bottom: auto; /* Remove a ancoragem no fundo */
+  top: 50%; /* Coloca o topo no meio da página */
+  transform: translateY(-50%); /* Ajusta para o centro real */
+  width: 71%;
+  right: 5%; /* Margem lateral mais elegante para o formato horizontal */
+  text-align: center;
+}
+
+.invitation-thumbnail .details-container h1 {
+  font-size: 72px;
+  font-weight: 700;
+  margin: 20px 0;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.invitation-thumbnail .details-container p {
+  margin: 0 0 15px 0;
+  font-size: 34px;
+  font-weight: 300;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.invitation-thumbnail .top-content {
+  padding-left: 0;
+}
+
+.invitation-thumbnail .highlight {
+  font-weight: 300 !important;
+}
