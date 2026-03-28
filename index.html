@@ -31,25 +31,25 @@
         /* Secção Esquerda - Elemento Vertical (Cruz + Palavra) */
         .vertical-element-container {
             position: absolute;
-            left: 10%; /* Margem à esquerda muito maior, 10% do card */
+            left: 10%; /* Margem à esquerda garantida */
             bottom: 5%;
-            height: 90%; /* Ajuste para não cortar nada */
-            width: 15%; /* Espaço dedicado ao elemento */
+            height: 90%; 
+            width: 15%; 
             display: flex;
             flex-direction: column;
-            align-items: center; /* Centraliza a cruz e o texto */
+            align-items: center;
             color: #ffffff;
         }
 
         /* Desenho da Cruz Real e Linear */
         .cross {
             width: 3px;
-    height: 188px;
-    background-color: #ffffff;
-    position: relative;
-    border-radius: 1px;
-    margin-bottom: 233px;
-    z-index: 2;
+            height: 188px;
+            background-color: #ffffff;
+            position: relative;
+            border-radius: 1px;
+            margin-bottom: 131px; /* Puxa o texto para cima para tocar na linha da cruz */
+            z-index: 2;
         }
 
         .cross-bar {
@@ -66,16 +66,16 @@
         /* Palavra Batismo Vertical com Fluxo */
         .batismo {
             font-family: 'Allura', cursive;
-    font-size: 130px;
-    line-height: 0.8;
-    padding: 0;
-    margin: 0;
-    transform: rotate(-90deg);
-    transform-origin: center center;
-    display: inline-block;
-    margin-top: -96px;
-    z-index: 1;
-        margin-left: 13px;
+            font-size: 130px;
+            line-height: 0.8;
+            padding: 0;
+            margin: 0;
+            transform: rotate(-90deg);
+            transform-origin: center center;
+            display: inline-block;
+            z-index: 1;
+            margin-left: 12px;
+            clip-path: inset(0px -3px 0px 0px);
         }
 
         /* Secção Direita - Detalhes do Evento */
@@ -100,7 +100,7 @@
 
         .details-container h1 {
             font-size: 26px;
-            font-weight: 700; /* Mais bold */
+            font-weight: 700;
             margin: 25px 0;
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -122,6 +122,17 @@
             opacity: 0.8;
         }
 
+        /* Estilo para os Links do WhatsApp */
+        .whatsapp-link {
+            color: #ffffff;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .whatsapp-link:hover {
+            opacity: 0.7;
+        }
+
         /* Ajustes para ecrãs mais pequenos (Telemóveis) */
         @media (max-width: 480px) {
             .invitation-card {
@@ -130,7 +141,7 @@
                 box-shadow: none;
             }
             .vertical-element-container {
-                left: 10%; /* Mantém a margem segura */
+                left: 10%;
             }
         }
     </style>
@@ -147,7 +158,7 @@
         </div>
 
         <div class="details-container">
-            <p>Convidamos-vos a celebrar<br>o batizado da nossa filha</p>
+            <p>Convidamos-vos a celebrar<br>o batismo da nossa filha</p>
             
             <h1>Carminho Novais</h1>
             
@@ -167,7 +178,10 @@
             
             <p style="margin-top: 30px;">
                 CONFIRMAR PRESENÇA ATÉ 15 DE MAIO<br>
-                <span class="small-text">Cláudio 927 070 805 &nbsp;|&nbsp; Tânia 925 802 578</span>
+                <span class="small-text">
+                    <a href="https://wa.me/351927070805" class="whatsapp-link" target="_blank">Cláudio 927 070 805</a> &nbsp;|&nbsp; 
+                    <a href="https://wa.me/351925802578" class="whatsapp-link" target="_blank">Tânia 925 802 578</a>
+                </span>
             </p>
         </div>
 
