@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convite de Batismo - Carminho Novais</title>
+    <link href="https://fonts.googleapis.com/css2?family=Allura&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Contentor principal do convite */
+        .invitation-card {
+            background-color: #dfb3b5; /* Tom rosa semelhante à imagem */
+            width: 100%;
+            max-width: 450px; /* Proporção ideal para telemóveis e ecrãs */
+            height: 800px;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        /* Secção Esquerda - Texto Vertical */
+        .vertical-text-container {
+            position: absolute;
+            left: 100px; /* Valor aumentado para garantir que não corta do lado esquerdo */
+            bottom: 15%;
+            transform: rotate(-90deg);
+            transform-origin: left bottom;
+            display: flex;
+            align-items: center;
+            color: #ffffff;
+            white-space: nowrap;
+        }
+
+        .cross {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 70px;
+            font-weight: 300;
+            margin-right: 20px;
+            margin-bottom: 15px; /* Ajuste para o centro da palavra */
+        }
+
+        .batizado {
+            font-family: 'Allura', cursive;
+            font-size: 130px;
+            line-height: 0.8;
+            padding-bottom: 0;
+        }
+
+        /* Secção Direita - Detalhes do Evento */
+        .details-container {
+            position: absolute;
+            right: 8%;
+            bottom: 5%;
+            width: 80%;
+            text-align: right;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 1.5px;
+        }
+
+        .details-container p {
+            margin: 0 0 15px 0;
+            font-size: 11px;
+            font-weight: 300;
+            line-height: 1.6;
+            text-transform: uppercase;
+        }
+
+        .details-container h1 {
+            font-size: 26px;
+            font-weight: 500;
+            margin: 25px 0;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .highlight {
+            font-weight: 500 !important;
+        }
+
+        .small-text {
+            font-size: 9px;
+            opacity: 0.9;
+        }
+
+        .section-title {
+            font-size: 10px;
+            font-weight: 500;
+            margin-bottom: 2px !important;
+            opacity: 0.8;
+        }
+
+        /* Ajustes para ecrãs mais pequenos (Telemóveis) */
+        @media (max-width: 480px) {
+            .invitation-card {
+                height: 100vh;
+                max-width: 100%;
+                box-shadow: none;
+            }
+            .vertical-text-container {
+                left: 90px; /* Mantém uma margem segura no telemóvel */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="invitation-card">
+        
+        <div class="vertical-text-container">
+            <span class="cross">+</span>
+            <span class="batizado">Batismo</span>
+        </div>
+
+        <div class="details-container">
+            <p>Convidamos-vos a celebrar<br>o batismo da nossa filha</p>
+            
+            <h1>Carminho Novais</h1>
+            
+            <p class="highlight">Sábado, 30 de Maio de 2026<br>às 11H00</p>
+            
+            <p class="section-title">Cerimónia</p>
+            <p>
+                Igreja Matriz de Barcelos<br>
+                <span class="small-text">Rua Dr. Miguel Fonseca, Barcelos</span>
+            </p>
+            
+            <p class="section-title">Receção</p>
+            <p>
+                MOCHO Guest Farm<br>
+                <span class="small-text">Rua da Silveira nº 161<br>4750-053 Alheira, Barcelos</span>
+            </p>
+            
+            <p style="margin-top: 30px;">
+                RSVP até 15 de Maio<br>
+                <span class="small-text">Cláudio 927 070 805 &nbsp;|&nbsp; Tânia 925 802 578</span>
+            </p>
+        </div>
+
+    </div>
+
+</body>
+</html>
