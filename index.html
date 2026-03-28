@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Convite de Batismo - Carminho Novais</title>
-    <link href="https://fonts.googleapis.com/css2?family=Allura&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Allura&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -18,9 +18,9 @@
 
         /* Contentor principal do convite */
         .invitation-card {
-            background-color: #dfb3b5; /* Tom rosa semelhante à imagem */
+            background-color: #dfb3b5; /* Tom rosa dusty semelhante à imagem */
             width: 100%;
-            max-width: 450px; /* Proporção ideal para telemóveis e ecrãs */
+            max-width: 480px; /* Proporção ideal para telemóveis e ecrãs */
             height: 800px;
             position: relative;
             box-shadow: 0 15px 35px rgba(0,0,0,0.15);
@@ -28,32 +28,54 @@
             box-sizing: border-box;
         }
 
-        /* Secção Esquerda - Texto Vertical */
-        .vertical-text-container {
+        /* Secção Esquerda - Elemento Vertical (Cruz + Palavra) */
+        .vertical-element-container {
             position: absolute;
-            left: 100px; /* Valor aumentado para garantir que não corta do lado esquerdo */
-            bottom: 15%;
-            transform: rotate(-90deg);
-            transform-origin: left bottom;
+            left: 10%; /* Margem à esquerda muito maior, 10% do card */
+            bottom: 5%;
+            height: 90%; /* Ajuste para não cortar nada */
+            width: 15%; /* Espaço dedicado ao elemento */
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            align-items: center; /* Centraliza a cruz e o texto */
             color: #ffffff;
-            white-space: nowrap;
         }
 
+        /* Desenho da Cruz Real e Linear */
         .cross {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 70px;
-            font-weight: 300;
-            margin-right: 20px;
-            margin-bottom: 15px; /* Ajuste para o centro da palavra */
+            width: 3px;
+    height: 188px;
+    background-color: #ffffff;
+    position: relative;
+    border-radius: 1px;
+    margin-bottom: 233px;
+    z-index: 2;
         }
 
-        .batizado {
+        .cross-bar {
+            width: 80px; /* Barra horizontal */
+            height: 3px;
+            background-color: #ffffff;
+            position: absolute;
+            top: 40px; /* Posição da barra na haste */
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 1px;
+        }
+
+        /* Palavra Batismo Vertical com Fluxo */
+        .batismo {
             font-family: 'Allura', cursive;
-            font-size: 130px;
-            line-height: 0.8;
-            padding-bottom: 0;
+    font-size: 130px;
+    line-height: 0.8;
+    padding: 0;
+    margin: 0;
+    transform: rotate(-90deg);
+    transform-origin: center center;
+    display: inline-block;
+    margin-top: -96px;
+    z-index: 1;
+        margin-left: 13px;
         }
 
         /* Secção Direita - Detalhes do Evento */
@@ -61,7 +83,7 @@
             position: absolute;
             right: 8%;
             bottom: 5%;
-            width: 80%;
+            width: 75%;
             text-align: right;
             color: #ffffff;
             font-family: 'Montserrat', sans-serif;
@@ -78,7 +100,7 @@
 
         .details-container h1 {
             font-size: 26px;
-            font-weight: 500;
+            font-weight: 700; /* Mais bold */
             margin: 25px 0;
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -107,8 +129,8 @@
                 max-width: 100%;
                 box-shadow: none;
             }
-            .vertical-text-container {
-                left: 90px; /* Mantém uma margem segura no telemóvel */
+            .vertical-element-container {
+                left: 10%; /* Mantém a margem segura */
             }
         }
     </style>
@@ -117,13 +139,15 @@
 
     <div class="invitation-card">
         
-        <div class="vertical-text-container">
-            <span class="cross">+</span>
-            <span class="batizado">Batismo</span>
+        <div class="vertical-element-container">
+            <div class="cross">
+                <div class="cross-bar"></div>
+            </div>
+            <span class="batismo">Batismo</span>
         </div>
 
         <div class="details-container">
-            <p>Convidamos-vos a celebrar<br>o batismo da nossa filha</p>
+            <p>Convidamos-vos a celebrar<br>o batizado da nossa filha</p>
             
             <h1>Carminho Novais</h1>
             
@@ -142,7 +166,7 @@
             </p>
             
             <p style="margin-top: 30px;">
-                RSVP até 15 de Maio<br>
+                CONFIRMAR PRESENÇA ATÉ 15 DE MAIO<br>
                 <span class="small-text">Cláudio 927 070 805 &nbsp;|&nbsp; Tânia 925 802 578</span>
             </p>
         </div>
