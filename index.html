@@ -2,25 +2,41 @@
 <html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    <meta name="theme-color" content="#dfb3b5">
+    <meta name="theme-color" content="#dfb3b5" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#dfb3b5" media="(prefers-color-scheme: dark)">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#dfb3b5">
+    
+    
     <title>Convite de Batismo - Carminho Novais</title>
     <link href="https://fonts.googleapis.com/css2?family=Allura&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+
     <style>
         body {
             margin: 0;
             padding: 0;
-            background-color: #f0f0f0;
+            background-color: #dfb3b5 !important; /* Cor idêntica à do convite */
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            min-height: 100vh; 
+            min-height: 100dvh; 
+            overflow: hidden; 
+        }
+
+        .secondbody{
+            background-color: #f0f0f0;
         }
 
         /* Contentor principal do convite */
         .invitation-card {
-            background-color: #dfb3b5; /* Tom rosa dusty semelhante à imagem */
+            background-color: #dfb3b5; 
             width: 100%;
-            max-width: 480px; /* Proporção ideal para telemóveis e ecrãs */
+            max-width: 480px; 
             height: 800px;
             position: relative;
             box-shadow: 0 15px 35px rgba(0,0,0,0.15);
@@ -28,10 +44,10 @@
             box-sizing: border-box;
         }
 
-        /* Secção Esquerda - Elemento Vertical (Cruz + Palavra) */
+        /* Secção Esquerda - Elemento Vertical */
         .vertical-element-container {
             position: absolute;
-            left: 10%; /* Margem à esquerda garantida */
+            left: 10%; 
             bottom: 5%;
             height: 90%; 
             width: 15%; 
@@ -41,29 +57,29 @@
             color: #ffffff;
         }
 
-        /* Desenho da Cruz Real e Linear */
+        /* Desenho da Cruz */
         .cross {
             width: 3px;
             height: 188px;
             background-color: #ffffff;
             position: relative;
             border-radius: 1px;
-            margin-bottom: 131px; /* Puxa o texto para cima para tocar na linha da cruz */
+            margin-bottom: 119px;
             z-index: 2;
         }
 
         .cross-bar {
-            width: 80px; /* Barra horizontal */
+            width: 80px; 
             height: 3px;
             background-color: #ffffff;
             position: absolute;
-            top: 40px; /* Posição da barra na haste */
+            top: 40px; 
             left: 50%;
             transform: translateX(-50%);
             border-radius: 1px;
         }
 
-        /* Palavra Batismo Vertical com Fluxo */
+        /* Palavra Batismo */
         .batismo {
             font-family: 'Allura', cursive;
             font-size: 130px;
@@ -75,7 +91,7 @@
             display: inline-block;
             z-index: 1;
             margin-left: 12px;
-            clip-path: inset(0px -3px 0px 0px);
+            clip-path: inset(-9px 5px 0px 0px);
         }
 
         /* Secção Direita - Detalhes do Evento */
@@ -122,6 +138,68 @@
             opacity: 0.8;
         }
 
+        /* --- NOVOS ESTILOS PARA AS MORADAS CLICÁVEIS --- */
+        .clickable-location {
+            cursor: pointer;
+            margin-bottom: 15px;
+            -webkit-tap-highlight-color: transparent; /* Remove a caixa azul ao clicar no telemóvel */
+        }
+
+        .clickable-location p.location-name {
+            margin: 0;
+            display: inline-block;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.5); /* Tracejado para indicar clique */
+            padding-bottom: 2px;
+            transition: opacity 0.3s;
+        }
+
+        .clickable-location:hover p.location-name {
+            opacity: 0.8;
+        }
+
+        .arrow {
+            font-size: 7px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+            margin-left: 4px;
+            vertical-align: middle;
+        }
+
+        .hidden-details {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.4s ease, opacity 0.4s ease, margin-top 0.4s ease;
+        }
+
+        /* Quando a morada está visível */
+        .hidden-details.open {
+            max-height: 80px; /* Altura suficiente para o texto e o botão */
+            opacity: 1;
+            margin-top: 6px;
+        }
+
+        /* Botão Minimalista do Mapa */
+        .map-btn {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 5px 12px;
+            border: 1px solid #ffffff;
+            border-radius: 20px; /* Bordas arredondadas elegantes */
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 8px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .map-btn:hover, .map-btn:active {
+            background-color: #ffffff;
+            color: #dfb3b5; /* Inverte a cor para o fundo do convite */
+        }
+
         /* Estilo para os Links do WhatsApp */
         .whatsapp-link {
             color: #ffffff;
@@ -133,16 +211,25 @@
             opacity: 0.7;
         }
 
-        /* Ajustes para ecrãs mais pequenos (Telemóveis) */
+        /* Ajustes para telemóveis normais */
         @media (max-width: 480px) {
             .invitation-card {
                 height: 100vh;
+                height: 100dvh; 
                 max-width: 100%;
                 box-shadow: none;
             }
             .vertical-element-container {
                 left: 10%;
             }
+        }
+
+        /* Ajuste de segurança para ecrãs pequenos */
+        @media (max-height: 720px), (max-width: 409px) {
+            .batismo { font-size: 115px; margin-left: 10px; }
+            .cross { height: 140px; margin-bottom: 107px; }
+            .details-container h1 { font-size: 22px; margin: 15px 0; }
+            .details-container p { margin: 0 0 10px 0; font-size: 10px; }
         }
     </style>
 </head>
@@ -165,16 +252,22 @@
             <p class="highlight">Sábado, 30 de Maio de 2026<br>às 11H00</p>
             
             <p class="section-title">Cerimónia</p>
-            <p>
-                Igreja Matriz de Barcelos<br>
-                <span class="small-text">Rua Dr. Miguel Fonseca, Barcelos</span>
-            </p>
+            <div class="clickable-location" onclick="toggleDetails('detalhes-cerimonia', this)">
+                <p class="location-name">Igreja Matriz de Barcelos <span class="arrow">▼</span></p>
+                <div id="detalhes-cerimonia" class="hidden-details">
+                    <span class="small-text">Rua Dr. Miguel Fonseca, Barcelos</span><br>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Igreja+Matriz+de+Barcelos" target="_blank" class="map-btn" onclick="event.stopPropagation();">Ver no Mapa</a>
+                </div>
+            </div>
             
             <p class="section-title">Receção</p>
-            <p>
-                MOCHO Guest Farm<br>
-                <span class="small-text">Rua da Silveira nº 161<br>4750-053 Alheira, Barcelos</span>
-            </p>
+            <div class="clickable-location" onclick="toggleDetails('detalhes-rececao', this)">
+                <p class="location-name">MOCHO Guest Farm <span class="arrow">▼</span></p>
+                <div id="detalhes-rececao" class="hidden-details">
+                    <span class="small-text">Rua da Silveira nº 161, Alheira, Barcelos</span><br>
+                    <a href="https://maps.app.goo.gl/GiBwYpsUk5NX7UDk9" target="_blank" class="map-btn" onclick="event.stopPropagation();">Ver no Mapa</a>
+                </div>
+            </div>
             
             <p style="margin-top: 30px;">
                 CONFIRMAR PRESENÇA ATÉ 15 DE MAIO<br>
@@ -186,6 +279,21 @@
         </div>
 
     </div>
+
+    <script>
+        function toggleDetails(id, element) {
+            const details = document.getElementById(id);
+            const arrow = element.querySelector('.arrow');
+            
+            if (details.classList.contains('open')) {
+                details.classList.remove('open');
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                details.classList.add('open');
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+    </script>
 
 </body>
 </html>
