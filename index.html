@@ -15,8 +15,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Allura&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
 
     <style>
-        /* Previne que o Safari redimensione o texto vertical de forma estranha */
-        html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+        /* Estabilização para Safari */
+        html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; background-color: #dfb3b5; }
 
         body {
             margin: 0;
@@ -31,7 +31,7 @@
             font-family: 'Montserrat', sans-serif;
         }
 
-        /* --- LOGICA DE REVELAÇÃO --- */
+        /* --- LÓGICA DE REVELAÇÃO --- */
         .invitation-card {
             background-color: #dfb3b5; 
             width: 100%;
@@ -41,31 +41,29 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.15);
             overflow: hidden;
             box-sizing: border-box;
-
-            /* Começa invisível para o fade-in */
             opacity: 0;
             filter: blur(10px);
             transition: opacity 0.5s ease-out, filter 0.5s ease-out;
         }
 
-        /* Classe injetada pelo JavaScript */
         .invitation-card.reveal {
             opacity: 1 !important;
             filter: blur(0) !important;
         }
 
-        /* --- ELEMENTOS --- */
+        /* --- LADO ESQUERDO (VERTICAL) --- */
         .vertical-element-container {
             position: absolute;
-            left: 10%; 
+            left: 8%; 
             bottom: 5%;
             height: 90%; 
-            width: 15%; 
+            width: 18%; 
             display: flex;
             flex-direction: column;
             align-items: center;
             color: #ffffff;
             pointer-events: none;
+            z-index: 10;
         }
 
         .cross {
@@ -79,14 +77,13 @@
         }
 
         .cross-bar {
-            width: 80px; 
+            width: 70px; 
             height: 3px;
             background-color: #ffffff;
             position: absolute;
             top: 40px; 
             left: 50%;
             transform: translateX(-50%);
-            border-radius: 1px;
         }
 
         .batismo {
@@ -99,36 +96,35 @@
             transform-origin: center center;
             display: inline-block;
             white-space: nowrap;
-            z-index: 1;
             margin-left: 12px;
             -webkit-clip-path: inset(-15px 4px 0px 0px);
             clip-path: inset(-15px 4px 0px 0px);
         }
 
-        /* Ajuste específico para Safari para evitar o "B" gigante e desalinhado */
-        @media screen and (-webkit-min-device-pixel-ratio:0) {
-            _::-webkit-full-page-media, _:future, :root .batismo {
-                font-size: 110px;
-                margin-left: 10px;
-            }
-        }
-
+        /* --- LADO DIREITO (DETALHES) --- */
         .details-container {
             position: absolute;
             right: 8%;
             bottom: 5%;
-            width: 75%;
+            width: 84%; /* Aumentado para permitir que o texto de baixo use a largura toda */
             text-align: right;
             color: #ffffff;
             letter-spacing: 1.5px;
+            box-sizing: border-box;
+        }
+
+        /* Esta classe protege o conteúdo superior para não bater na cruz */
+        .top-content {
+            padding-left: 22%; 
         }
 
         .details-container h1 {
             font-size: 26px;
             font-weight: 700;
-            margin: 25px 0;
+            margin: 20px 0;
             letter-spacing: 3px;
             text-transform: uppercase;
+            line-height: 1.2;
         }
 
         .details-container p {
@@ -143,13 +139,12 @@
         .small-text { font-size: 9px; opacity: 0.9; }
         .section-title { font-size: 10px; font-weight: 500; margin-bottom: 2px !important; opacity: 0.8; }
 
-        /* Moradas */
         .clickable-location { cursor: pointer; margin-bottom: 15px; -webkit-tap-highlight-color: transparent; }
         .location-name { border-bottom: 1px dashed rgba(255, 255, 255, 0.5); display: inline-block; padding-bottom: 2px; }
         .arrow { font-size: 7px; display: inline-block; transition: transform 0.3s ease; margin-left: 4px; }
 
         .hidden-details { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; }
-        .hidden-details.open { max-height: 100px; opacity: 1; margin-top: 8px; }
+        .hidden-details.open { max-height: 120px; opacity: 1; margin-top: 8px; }
 
         .map-btn {
             display: inline-block;
@@ -164,9 +159,15 @@
             text-transform: uppercase;
         }
 
-        .whatsapp-link { color: #ffffff; text-decoration: none; font-weight: 500; }
+        .whatsapp-link { color: #ffffff; text-decoration: none; font-weight: 500; white-space: nowrap; }
 
-        /* Responsividade */
+        /* Estilo para a confirmação (sem o padding largo da esquerda) */
+        .confirmation-footer {
+            margin-top: 30px;
+            padding-left: 0;
+        }
+
+        /* Responsividade Extrema */
         @media (max-width: 480px) {
             .invitation-card { height: 100dvh !important; max-width: 100%; box-shadow: none; }
         }
@@ -176,6 +177,7 @@
             .cross { height: 140px; margin-bottom: 82px; }
             .details-container h1 { font-size: 22px; margin: 15px 0; }
             .details-container p { margin: 0 0 10px 0; font-size: 10px; }
+            .top-content { padding-left: 25%; }
         }
     </style>
 </head>
@@ -188,52 +190,52 @@
         </div>
 
         <div class="details-container">
-            <p>Convidamos-vos a celebrar<br>o batismo da nossa filha</p>
-            <h1>Carminho Novais</h1>
-            <p class="highlight">Sábado, 30 de Maio de 2026<br>às 11H00</p>
-            
-            <p class="section-title">Cerimónia</p>
-            <div class="clickable-location" onclick="toggleDetails('det-cer', this)">
-                <p class="location-name">Igreja Matriz de Barcelos <span class="arrow">▼</span></p>
-                <div id="det-cer" class="hidden-details">
-                    <span class="small-text">Rua Dr. Miguel Fonseca, Barcelos</span><br>
-                    <a href="https://maps.google.com/?q=MOCHO+Guest+Farm+Barcelos" target="_blank" class="map-btn" onclick="event.stopPropagation();">Ver no Mapa</a>
+            <div class="top-content">
+                <p>Convidamos-vos a celebrar<br>o batismo da nossa filha</p>
+                
+                <h1>Carminho<br>Novais</h1>
+                
+                <p class="highlight">Sábado, 30 de Maio de 2026<br>às 11H00</p>
+                
+                <p class="section-title">Cerimónia</p>
+                <div class="clickable-location" onclick="toggleDetails('det-cer', this)">
+                    <p class="location-name">Igreja Matriz de Barcelos <span class="arrow">▼</span></p>
+                    <div id="det-cer" class="hidden-details">
+                        <span class="small-text">Rua Dr. Miguel Fonseca, Barcelos</span><br>
+                        <a href="https://maps.app.goo.gl/9uT5eEwLp9A5mYqA7" target="_blank" class="map-btn" onclick="event.stopPropagation();">Ver no Mapa</a>
+                    </div>
+                </div>
+                
+                <p class="section-title">Receção</p>
+                <div class="clickable-location" onclick="toggleDetails('det-rec', this)">
+                    <p class="location-name">MOCHO Guest Farm <span class="arrow">▼</span></p>
+                    <div id="det-rec" class="hidden-details">
+                        <span class="small-text">Rua da Silveira nº 161, Alheira</span><br>
+                        <a href="https://maps.app.goo.gl/3HhLq2C9Zp3kF6Q8" target="_blank" class="map-btn" onclick="event.stopPropagation();">Ver no Mapa</a>
+                    </div>
                 </div>
             </div>
             
-            <p class="section-title">Receção</p>
-            <div class="clickable-location" onclick="toggleDetails('det-rec', this)">
-                <p class="location-name">MOCHO Guest Farm <span class="arrow">▼</span></p>
-                <div id="det-rec" class="hidden-details">
-                    <span class="small-text">Rua da Silveira nº 161, Alheira</span><br>
-                    <a href="https://maps.google.com/?q=MOCHO+Guest+Farm+Barcelos" target="_blank" class="map-btn" onclick="event.stopPropagation();">Ver no Mapa</a>
-                </div>
+            <div class="confirmation-footer">
+                <p>
+                    CONFIRMAR PRESENÇA ATÉ 15 DE MAIO<br>
+                    <span class="small-text">
+                        <a href="https://wa.me/351927070805" class="whatsapp-link">Cláudio 927 070 805</a> &nbsp;|&nbsp; 
+                        <a href="https://wa.me/351925802578" class="whatsapp-link">Tânia 925 802 578</a>
+                    </span>
+                </p>
             </div>
-            
-            <p style="margin-top: 30px;">
-                CONFIRMAR PRESENÇA ATÉ 15 DE MAIO<br>
-                <span class="small-text">
-                    <a href="https://wa.me/351927070805" class="whatsapp-link">Cláudio 927 070 805</a>  |  
-                    <a href="https://wa.me/351925802578" class="whatsapp-link">Tânia 925 802 578</a>
-                </span>
-            </p>
         </div>
     </div>
 
     <script>
         const card = document.getElementById('main-card');
+        function revealCard() { card.classList.add('reveal'); }
 
-        // Função única para mostrar o convite
-        function revealCard() {
-            card.classList.add('reveal');
-        }
-
-        // Tenta esperar pelas fontes
         document.fonts.ready.then(() => {
             setTimeout(revealCard, 100);
         });
 
-        // "Válvula de Segurança": Se as fontes falharem ou demorarem, mostra ao fim de 600ms
         setTimeout(revealCard, 600);
 
         function toggleDetails(id, element) {
