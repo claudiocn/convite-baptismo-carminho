@@ -1,0 +1,73 @@
+<%- include('../../core/html/head', { 
+    title: data.title, 
+    themeColor: data.themeColor, 
+    description: data.description, 
+    baseUrl: data.baseUrl, 
+    cssFiles: ['style.css'] 
+}) %>
+
+<div class="invitation-card" id="main-card">
+    <div class="vertical-element-container">
+        <div class="cross"><div class="cross-bar"></div></div>
+        <span class="batismo"><%- data.tipoEvento %></span>
+    </div>
+
+    <div class="details-container">
+        <div class="top-content">
+            <p>Convidamos-vos a celebrar<br>o batismo da nossa filha</p>
+            <h1><%- data.nomeCrianca %></h1>
+            <p class="highlight"><%- data.dataHora %></p>
+            
+            <p class="section-title">Cerimónia</p>
+            <div class="clickable-location" onclick="toggleDetails('det-cer', this)">
+                <p class="location-name"><%= data.cerimonia.nome %> <span class="arrow">▼</span></p>
+                <div id="det-cer" class="hidden-details">
+                    <span class="small-text"><%= data.cerimonia.morada %></span><br>
+                    <a href="<%= data.cerimonia.linkMapa %>" class="map-btn" onclick="event.stopPropagation();">Ver no Mapa</a>
+                </div>
+            </div>
+            
+            <p class="section-title">Receção</p>
+            <div class="clickable-location" onclick="toggleDetails('det-rec', this)">
+                <p class="location-name"><%= data.rececao.nome %> <span class="arrow">▼</span></p>
+                <div id="det-rec" class="hidden-details">
+                    <span class="small-text"><%= data.rececao.morada %></span><br>
+                    <a href="<%= data.rececao.linkMapa %>" class="map-btn" onclick="event.stopPropagation();">Ver no Mapa</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="confirmation-footer">
+            <p>
+                CONFIRMAR PRESENÇA ATÉ 15 DE MAIO<br>
+                <span class="small-text">
+                    <% data.contactos.forEach(function(contacto, index) { %>
+                        <a href="<%= contacto.link %>" class="whatsapp-link"><%= contacto.nome %></a>
+                        <%= index < data.contactos.length - 1 ? ' | ' : '' %>
+                    <% }); %>
+                </span>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* O teu código JS existente fica exatamente igual aqui */
+    const card = document.getElementById('main-card');
+    function revealCard() { card.classList.add('reveal'); }
+    document.fonts.ready.then(() => { setTimeout(revealCard, 100); });
+    setTimeout(revealCard, 600);
+    function toggleDetails(id, element) {
+        const details = document.getElementById(id);
+        const arrow = element.querySelector('.arrow');
+        if (details.classList.contains('open')) {
+            details.classList.remove('open');
+            arrow.style.transform = 'rotate(0deg)';
+        } else {
+            details.classList.add('open');
+            arrow.style.transform = 'rotate(180deg)';
+        }
+    }
+</script>
+
+<%- include('../../core/html/foot') %>

@@ -4,6 +4,24 @@
   "private": true,
   "description": "Repositório de templates de convites com compilação Sass",
   "devDependencies": {
-    "sass": "^1.71.1"
-  }
+    "ejs": "^5.0.1",
+    "nodemon": "^3.1.14",
+    "sass": "^1.98.0"
+  },
+  "main": "build-html.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/claudiocn/convite-baptismo-carminho.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/claudiocn/convite-baptismo-carminho/issues"
+  },
+  "homepage": "https://github.com/claudiocn/convite-baptismo-carminho#readme"
 }

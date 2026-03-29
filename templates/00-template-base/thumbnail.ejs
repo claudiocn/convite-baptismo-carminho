@@ -1,0 +1,24 @@
+<%- include('../../core/html/head', { 
+    title: data.title, 
+    themeColor: data.themeColor, 
+    description: data.description, 
+    baseUrl: data.baseUrl, 
+    cssFiles: ['style.css', 'thumbnail.css'] 
+}) %>
+
+<div class="invitation-thumbnail" id="main-card">
+    <div class="vertical-element-container">
+        <div class="cross"><div class="cross-bar"></div></div>
+        <span class="batismo"><%- data.tipoEvento %></span>
+    </div>
+
+    <div class="details-container">
+        <div class="top-content">
+            <h1><%- data.nomeCrianca.replace(/<br\s*\/?>/gi, ' ') %></h1>
+            
+            <p class="highlight"><%- data.dataHora.replace(/<br\s*\/?>/gi, ' ') %></p>
+        </div>
+    </div>
+</div>
+
+<%- include('../../core/html/foot') %>

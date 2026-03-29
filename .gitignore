@@ -1,0 +1,28 @@
+# Dependências do Node.js
+node_modules/
+npm-debug.log
+
+# Ficheiros de sistema do macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# Ficheiros gerados pelo compilador de SCSS (caso existam)
+.sass-cache/
+*.css.map
+
+# --- GESTÃO DA PASTA BUILD ---
+# Como a tua pasta 'build' contém tanto o ficheiro fonte (data.json) 
+# como os ficheiros gerados (HTML, CSS), tens duas opções. 
+# A configuração abaixo ignora apenas o que é GERADO automaticamente,
+# garantindo que o teu data.json vai para o GitHub.
+
+build/*/*.html
+build/*/css/
+build/*/temp_*.scss
+
+# Se as imagens na pasta build forem APENAS copiadas dos templates e 
+# geradas pelo Chrome (thumbnail), podes descomentar a linha abaixo. 
+# Se pões imagens exclusivas lá manualmente, deixa estar comentada.
+# build/*/images/
