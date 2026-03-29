@@ -1,0 +1,42 @@
+@use 'system';
+@use 'variables' as *;
+
+/* Anula o flexbox do style.css e preenche com a cor primária para não haver margens */
+body {
+  background-color: $color-primary !important;
+  display: block; 
+}
+
+.invitation-thumbnail {
+  background-color: $color-primary;
+
+  /* Reposiciona a cruz */
+  .vertical-element-container { 
+    top: 13%; 
+    left: 3%; 
+    bottom: auto; /* Anula o bottom: 5% que vinha do style.css */
+  }
+
+  /* Reposiciona e aumenta os textos */
+  .details-container {
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 71%;
+    right: 5%;
+    text-align: center;
+
+    .top-content { padding-left: 0; }
+
+    h1 {
+      font-size: 72px;
+      margin: 20px 0;
+    }
+
+    p {
+      font-size: 34px;
+    }
+
+    .highlight { font-weight: 300 !important; }
+  }
+}

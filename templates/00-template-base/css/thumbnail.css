@@ -1,0 +1,73 @@
+@charset "UTF-8";
+/* core/sass/_system.scss */
+/* 1. Defaults Globais do Sistema (Inalteráveis) */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+/* 2. A Estrutura Base Partilhada */
+.invitation-card, .invitation-thumbnail {
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  /* Apenas o que é estrutural. Cores ficam para o template! */
+}
+
+/* 3. A Thumbnail (Herda o Card, mas tranca o tamanho) */
+.invitation-thumbnail {
+  /* MÁGICA: Herda todas as regras acima! */
+  /* Defaults inalteráveis do sistema para redes sociais */
+  width: 1200px !important;
+  height: 630px !important;
+  display: block;
+  box-shadow: none !important;
+}
+
+/* Utilitário do sistema para a revelação (JS) */
+.reveal {
+  opacity: 1 !important;
+  filter: blur(0) !important;
+}
+
+/* Anula o flexbox do style.css e preenche com a cor primária para não haver margens */
+body {
+  background-color: #dfb3b5 !important;
+  display: block;
+}
+
+.invitation-thumbnail {
+  background-color: #dfb3b5;
+  /* Reposiciona a cruz */
+}
+.invitation-thumbnail .vertical-element-container {
+  top: 13%;
+  left: 3%;
+  bottom: auto; /* Anula o bottom: 5% que vinha do style.css */
+}
+.invitation-thumbnail {
+  /* Reposiciona e aumenta os textos */
+}
+.invitation-thumbnail .details-container {
+  bottom: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 71%;
+  right: 5%;
+  text-align: center;
+}
+.invitation-thumbnail .details-container .top-content {
+  padding-left: 0;
+}
+.invitation-thumbnail .details-container h1 {
+  font-size: 72px;
+  margin: 20px 0;
+}
+.invitation-thumbnail .details-container p {
+  font-size: 34px;
+}
+.invitation-thumbnail .details-container .highlight {
+  font-weight: 300 !important;
+}

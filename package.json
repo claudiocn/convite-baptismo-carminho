@@ -1,0 +1,9 @@
+{
+  "name": "flexibooth-templates",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Repositório de templates de convites com compilação Sass",
+  "devDependencies": {
+    "sass": "^1.71.1"
+  }
+}
