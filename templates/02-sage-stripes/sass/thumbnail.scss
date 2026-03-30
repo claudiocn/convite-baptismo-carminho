@@ -1,0 +1,65 @@
+@use "variables" as *;
+
+.invitation-thumbnail {
+  // O Core já define width: 1200px e height: 630px
+  display: flex;
+  padding: 30px;
+  box-sizing: border-box;
+  
+  // Mantém o fundo às riscas, mas ajusta a escala
+  background: repeating-linear-gradient(
+    to right,
+    $color-bg,
+    $color-bg 20px,
+    rgba($themeColor, 0.4) 20px,
+    rgba($themeColor, 0.4) 40px
+  );
+
+  .inner-frame {
+    flex-direction: row; // Layout horizontal na thumbnail
+    justify-content: space-around;
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: inset 0 0 0 6px $color-bg, inset 0 0 0 8px rgba($themeColor, 0.3);
+  }
+
+  .left-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+
+    .top-ornament {
+      width: 250px;
+      height: 350px;
+      margin: 0;
+    }
+  }
+
+  .right-col {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .event-type {
+      font-size: 3.5rem;
+    }
+
+    .child-name {
+      font-size: 7rem;
+      margin: 20px 0 40px 0;
+    }
+
+    .date-time {
+      font-size: 1.5rem;
+      padding: 15px 0;
+    }
+
+    // Esconde detalhes e RSVPs na thumbnail gerada para as redes sociais
+    .locations, .rsvp {
+      display: none;
+    }
+  }
+}

@@ -5,5 +5,8 @@
   "emmet.includeLanguages": {
     "ejs": "html"
   },
-  "html.format.templating": true
+  "html.format.templating": true,
+  "files.exclude": {
+    "**/node_modules": true
+  }
 }

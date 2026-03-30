@@ -51,23 +51,4 @@
     </div>
 </div>
 
-<script>
-    /* O teu código JS existente fica exatamente igual aqui */
-    const card = document.getElementById('main-card');
-    function revealCard() { card.classList.add('reveal'); }
-    document.fonts.ready.then(() => { setTimeout(revealCard, 100); });
-    setTimeout(revealCard, 600);
-    function toggleDetails(id, element) {
-        const details = document.getElementById(id);
-        const arrow = element.querySelector('.arrow');
-        if (details.classList.contains('open')) {
-            details.classList.remove('open');
-            arrow.style.transform = 'rotate(0deg)';
-        } else {
-            details.classList.add('open');
-            arrow.style.transform = 'rotate(180deg)';
-        }
-    }
-</script>
-
 <%- include('../../core/html/foot') %>

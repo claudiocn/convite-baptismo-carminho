@@ -1,0 +1,179 @@
+@use "system";
+@use "variables" as *;
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5; // Fundo neutro fora do convite mobile
+  margin: 0;
+  font-family: $font-serif;
+  color: $color-text-dark;
+}
+
+.invitation-card {
+  max-width: 480px;
+  width: 100%;
+  height: 100dvh;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  
+  // Padrão de riscas usando a themeColor com transparência
+  background: repeating-linear-gradient(
+    to right,
+    $color-bg,
+    $color-bg 12px,
+    rgba($themeColor, 0.4) 12px,
+    rgba($themeColor, 0.4) 24px
+  );
+  
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.inner-frame {
+  background-color: $color-bg;
+  border: 2px solid rgba($themeColor, 0.7);
+  border-radius: 12px;
+  padding: 40px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  box-shadow: inset 0 0 0 4px $color-bg, inset 0 0 0 5px rgba($themeColor, 0.3);
+
+  // Ícone/Ilustração no topo (Placeholder para a cruz floral)
+  .top-ornament {
+    width: 80px;
+    height: 120px;
+    margin-bottom: 20px;
+    color: $themeColor;
+    svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+    }
+  }
+
+  .intro-text {
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba($color-text-dark, 0.7);
+    margin-bottom: 10px;
+  }
+
+  .event-type {
+    font-size: 2.2rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: $themeColor;
+    margin: 0 0 15px 0;
+    font-weight: 400;
+  }
+
+  .child-name {
+    font-family: $font-script;
+    font-size: 4.5rem;
+    line-height: 1.1;
+    color: $themeColor;
+    margin: 10px 0 30px 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+  }
+
+  .date-time {
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    border-top: 1px solid rgba($themeColor, 0.3);
+    border-bottom: 1px solid rgba($themeColor, 0.3);
+    padding: 10px 0;
+    width: 80%;
+  }
+
+  // Seção de interatividade (Accordions)
+  .locations {
+    width: 100%;
+    margin-bottom: 30px;
+
+    .location-block {
+      margin-bottom: 15px;
+      cursor: pointer;
+      
+      h4 {
+        font-size: 1rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin: 0 0 5px 0;
+        color: $themeColor;
+      }
+
+      .script-subtitle {
+        font-family: $font-script;
+        font-size: 1.8rem;
+        color: rgba($color-text-dark, 0.8);
+        margin: 5px 0;
+      }
+    }
+  }
+
+  .rsvp {
+    margin-top: auto;
+    font-size: 0.9rem;
+    color: rgba($color-text-dark, 0.8);
+    
+    .rsvp-links {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      
+      a {
+        color: $themeColor;
+        text-decoration: none;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+// Classes do Core para Animação dos Detalhes
+.hidden-details {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.4s ease-in-out;
+  font-size: 0.9rem;
+  
+  p { margin: 10px 0; }
+  
+  .map-btn {
+    display: inline-block;
+    margin-top: 5px;
+    padding: 5px 15px;
+    border: 1px solid $themeColor;
+    color: $themeColor;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    transition: background 0.3s;
+    
+    &:hover {
+      background: $themeColor;
+      color: $color-bg;
+    }
+  }
+  
+  &.open {
+    max-height: 200px; // Suficiente para o conteúdo
+    opacity: 1;
+    margin-top: 10px;
+  }
+}

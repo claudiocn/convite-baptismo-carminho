@@ -1,0 +1,10 @@
+// Importação de fontes (Serif elegante e Script clássica)
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Pinyon+Script&display=swap');
+
+// Variáveis de Tipografia
+$font-serif: 'Cormorant Garamond', serif;
+$font-script: 'Pinyon Script', cursive;
+
+// Cores base (além da $themeColor injetada)
+$color-bg: #ffffff;
+$color-text-dark: #333333;
