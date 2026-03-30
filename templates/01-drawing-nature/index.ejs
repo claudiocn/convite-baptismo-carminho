@@ -1,0 +1,46 @@
+<%- include('../../core/html/head', { title: data.title, themeColor: data.themeColor, description: data.description, baseUrl: data.baseUrl, cssFiles: ['style.css'] }) %>
+
+<div class="invitation-card corrected-template" id="main-card">
+  
+  <div class="corrected-content-wrapper">
+    
+    <header class="card-header corrected-header">
+      <div class="join-us-corrected text-smallcaps">join us for the</div>
+      <div class="cross-icon corrected-cross">&#x271D;</div>
+      <h1 class="event-type-corrected">BAPTISM</h1>
+      <div class="of-our-daughter-corrected text-smallcaps">of our daughter</div>
+    </header>
+
+    <section class="name-section corrected-name-section">
+      <div class="honoree-name-corrected text-script"><%- data.nomeCrianca %></div>
+    </section>
+
+    <section class="date-time-section corrected-date-time">
+      <div class="date-block-corrected">
+        <span class="date-main">JUN | 27 | SUN</span>
+        <span class="time-sub">at eleven o'clock</span>
+      </div>
+    </section>
+
+    <section class="central-info-section corrected-central-info">
+      <div class="location-details-corrected">
+        <h3 class="location-name"><%- data.cerimonia.nome %></h3>
+        <p class="location-address"><%- data.cerimonia.morada %></p>
+        <a href="<%= data.cerimonia.linkMapa %>" class="map-link" target="_blank">Ver no Mapa</a>
+      </div>
+
+      <div class="rsvp-and-contact-corrected">
+        <div class="rsvp-header-line text-smallcaps">kindly rsvp to</div>
+        <div class="contact-line-corrected">
+          <a href="<%= data.contactos[0].link %>" class="contact-link"><%= data.contactos[0].nome %></a>
+        </div>
+      </div>
+
+      <div class="reception-line-corrected text-script">reception to follow</div>
+    </section>
+
+  </div>
+
+</div>
+
+<%- include('../../core/html/foot') %>

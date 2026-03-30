@@ -1,0 +1,71 @@
+// thumbnail.scss (atualizado)
+@use "system";
+@use "variables" as *;
+
+body {
+  display: block; // Anular flexbox
+}
+
+.invitation-thumbnail.corrected-thumbnail {
+  background-color: $background-color;
+  background-image: none;
+  padding: 50px;
+  position: relative;
+  overflow: hidden;
+
+  // Manter padrão Toile apenas no lado esquerdo
+  .thumbnail-overlay-left {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 40%;
+    background-image: url('../images/bg-botanical-pattern.png');
+    background-size: cover;
+    background-position: left center;
+    border-right: 1px solid rgba($text-color-slate, 0.2);
+  }
+
+  .content-wrapper {
+    position: absolute;
+    top: 50%;
+    right: 50px;
+    width: 50%;
+    transform: translateY(-50%);
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    z-index: 1;
+  }
+
+  // Ajustar tamanhos de fonte para thumbnail
+  .card-header.corrected-header {
+    margin: 0;
+    text-align: right;
+
+    .join-us-corrected { font-size: 0.9rem; }
+    .cross-icon.corrected-cross { font-size: 2rem; margin: 5px 0; }
+    .event-type-corrected { font-size: 2.2rem; margin: 5px 0; }
+    .of-our-daughter-corrected { font-size: 0.9rem; }
+  }
+
+  .name-section.corrected-name-section {
+    .honoree-name-corrected { font-size: 3.2rem; }
+  }
+
+  .date-time-section.corrected-date-time {
+    margin: 15px 0;
+    padding: 10px 0;
+    border-top: 1px solid rgba($date-bar-color, 0.4);
+    border-bottom: 1px solid rgba($date-bar-color, 0.4);
+    text-align: right;
+
+    .date-block-corrected {
+      font-size: 1.2rem;
+      // formatted as: "JUN | 27 | SUN at eleven o'clock"
+    }
+  }
+
+  // Ocultar detalhes complexos
+  .central-info-section { display: none; }
+}

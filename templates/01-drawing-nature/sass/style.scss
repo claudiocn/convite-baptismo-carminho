@@ -1,0 +1,200 @@
+@use "system";
+@use "variables" as *;
+
+// Usar o Google Fonts corretos
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Lora&family=Italianno&display=swap');
+
+// Mixin para centralizar texto e elementos
+@mixin center-content {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// Estilos de utilidade para texto
+.text-smallcaps {
+  font-family: $font-serif-clean;
+  text-transform: lowercase;
+  font-variant: small-caps;
+}
+
+.text-script {
+  font-family: $font-script-elegant;
+  font-weight: 400;
+}
+
+body {
+  background-color: #faf7f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100dvh;
+  padding: 0;
+  margin: 0;
+  font-family: $font-serif-text;
+}
+
+.invitation-card.corrected-template {
+  max-width: 480px;
+  width: 100%;
+  height: 100dvh;
+  background-color: $background-color;
+  background-image: url('../images/bg-botanical-pattern.png');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: $text-color-slate;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  overflow-y: auto;
+  box-sizing: border-box;
+  // Padding agressivo para criar zona segura das flores nas bordas
+  padding: 120px 50px; 
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+  }
+}
+
+.corrected-content-wrapper {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; // Começar no topo para melhor controlo de margem
+  gap: 25px;
+  min-height: 100%;
+}
+
+.card-header.corrected-header {
+  margin-top: 10px; // Espaço do topo (abaixo das flores superiores)
+  @include center-content;
+
+  .join-us-corrected {
+    font-size: 1.05rem;
+    color: $text-color-gray;
+    letter-spacing: 0.05rem;
+  }
+
+  .cross-icon.corrected-cross {
+    font-size: 2.2rem;
+    color: $themeColor; // Dynamic
+    margin: 10px 0;
+    @include center-content;
+  }
+
+  .event-type-corrected {
+    font-family: $font-serif-clean;
+    font-size: 2.5rem; // Reduzido para equilibrar
+    font-weight: 500;
+    letter-spacing: 0.15rem;
+    color: $text-color-slate;
+    margin: 10px 0;
+  }
+
+  .of-our-daughter-corrected {
+    font-size: 1.05rem;
+    color: $text-color-gray;
+    letter-spacing: 0.05rem;
+  }
+}
+
+.name-section.corrected-name-section {
+  margin-top: -10px; // Aproximar ligeiramente
+  @include center-content;
+
+  .honoree-name-corrected {
+    font-size: 4.8rem; // Grande e central
+    color: $themeColor; // Dynamic
+    margin: 0;
+    line-height: 1;
+  }
+}
+
+.date-time-section.corrected-date-time {
+  margin: 30px 0;
+  padding: 12px 0;
+  // Borda superior e inferior para o bloco completo
+  border-top: 1px solid rgba($date-bar-color, 0.4);
+  border-bottom: 1px solid rgba($date-bar-color, 0.4);
+  @include center-content;
+
+  .date-block-corrected {
+    font-family: $font-serif-clean;
+    color: $text-color-gray;
+    font-variant: small-caps;
+    
+    .date-main {
+      font-size: 1.5rem;
+      letter-spacing: 0.1rem;
+      text-transform: uppercase;
+      display: block; // Mover para linha separada
+      margin-bottom: 5px;
+    }
+    .time-sub {
+      font-size: 1.15rem;
+      color: $text-color-gray;
+      text-transform: none;
+      letter-spacing: normal;
+      font-variant: normal;
+    }
+  }
+}
+
+.central-info-section.corrected-central-info {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  @include center-content;
+  color: $text-color-gray;
+
+  .location-details-corrected {
+    margin-bottom: 10px;
+
+    .location-name {
+      font-family: $font-serif-clean;
+      font-size: 1.15rem;
+      color: $text-color-slate;
+      margin-bottom: 4px;
+      font-variant: small-caps;
+    }
+    .location-address {
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+    .map-link {
+      font-size: 0.9rem;
+      color: $themeColor;
+      text-decoration: underline;
+    }
+  }
+
+  .rsvp-and-contact-corrected {
+    margin-top: 5px;
+    
+    .rsvp-header-line {
+      font-size: 1.05rem;
+      color: $text-color-gray;
+    }
+    .contact-line-corrected {
+      margin-top: 5px;
+      
+      .contact-link {
+        font-family: $font-serif-text;
+        font-size: 1rem;
+        color: $text-color-slate;
+        text-decoration: none;
+      }
+    }
+  }
+
+  .reception-line-corrected {
+    font-size: 2rem;
+    color: $text-color-slate;
+    margin-top: 5px;
+    margin-bottom: 20px; // Espaço do fundo (afastado das flores inferiores)
+  }
+}

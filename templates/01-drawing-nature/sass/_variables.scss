@@ -1,0 +1,10 @@
+// Fontes Google (EB Garamond para serifas, Italianno para script)
+$font-serif-clean: 'EB Garamond', serif; // Usado para small caps e serifas limpas
+$font-serif-text: 'Lora', serif; // Usado para endereços
+$font-script-elegant: 'Italianno', cursive; // Script fina e elegante
+
+// Cores base (fallback ajustado)
+$background-color: #fdfaf5; // Off-white quente
+$text-color-slate: #6A7E97; // O azul ardósia suave do convite (themeColor fallback)
+$text-color-gray: #707070; // Cinzento suave para textos secundários
+$date-bar-color: $text-color-gray; // Linhas do bloco de data

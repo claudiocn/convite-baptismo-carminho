@@ -1,0 +1,26 @@
+<%- include('../../core/html/head', { title: data.title, themeColor: data.themeColor, description: data.description, baseUrl: data.baseUrl, cssFiles: ['style.css', 'thumbnail.css'] }) %>
+
+<div class="invitation-thumbnail corrected-thumbnail" id="main-card">
+  <div class="thumbnail-overlay-left"></div>
+  
+  <div class="content-wrapper">
+    <header class="card-header corrected-header">
+      <div class="join-us-corrected text-smallcaps">join us for the</div>
+      <div class="cross-icon corrected-cross">&#x271D;</div>
+      <h1 class="event-type-corrected">BAPTISM</h1>
+      <div class="of-our-daughter-corrected text-smallcaps">of our daughter</div>
+    </header>
+
+    <section class="name-section corrected-name-section">
+      <div class="honoree-name-corrected text-script"><%- data.nomeCrianca.replace(/<br\s*\/?>/gi, ' ') %></div>
+    </section>
+
+    <section class="date-time-section corrected-date-time">
+      <div class="date-block-corrected">
+        <%- data.dataHora.replace(/<br\s*\/?>/gi, ' at ') %>
+      </div>
+    </section>
+  </div>
+</div>
+
+<%- include('../../core/html/foot') %>
