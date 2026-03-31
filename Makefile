@@ -1,4 +1,4 @@
-.PHONY: install build run-builder watch thumbnails all
+.PHONY: install build run-builder watch thumbnails all deploy
 
 # Configurações macOS
 CHROME_BIN = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
@@ -12,7 +12,7 @@ install:
 
 # O 'make build' agora corre o script js e a seguir gera os thumbnails
 build: run-builder thumbnails
-	@echo "\n✨ Build totalmente concluído (Ficheiros + Thumbnails gerados)!"
+	@echo "\n✨ Build concluído! (Apenas instâncias alteradas foram processadas)"
 
 run-builder:
 	@echo "🚀 A processar instâncias (HTML, CSS e Imagens)..."
@@ -24,9 +24,9 @@ watch:
 	@npx nodemon -e ejs,scss,json -w core -w templates -w build -x "make build"
 
 thumbnails:
-	@echo "\n🎨 A gerar thumbnails 1200x630 para todas as instâncias..."
+	@echo "\n🎨 A verificar e gerar thumbnails para instâncias atualizadas..."
 	@for dir in $(INSTANCES); do \
-		if [ -f "$$dir/thumbnail.html" ]; then \
+		if [ -f "$$dir/.needs_thumbnail" ] && [ -f "$$dir/thumbnail.html" ]; then \
 			mkdir -p "$$dir/images"; \
 			$(CHROME_BIN) --headless \
 				--disable-gpu \
@@ -36,8 +36,14 @@ thumbnails:
 				--hide-scrollbars \
 				--virtual-time-budget=5000 \
 				"file://$(shell pwd)/$$dir/thumbnail.html"; \
-			echo "✅ Sucesso: $$dir/images/thumbnail.png"; \
+			rm "$$dir/.needs_thumbnail"; \
+			echo "✅ Sucesso: $$dir/images/thumbnail.png gerado."; \
 		fi \
 	done
 
-all: build
+# Publica a pasta build/ no Cloudflare Pages
+deploy: build
+	@echo "☁️ A publicar a pasta build no Cloudflare Pages..."
+	npx wrangler pages deploy build
+
+all: build deploy

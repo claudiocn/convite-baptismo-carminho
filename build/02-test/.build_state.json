@@ -1,12 +1,12 @@
 {
-  "template": "01-drawing-nature",
-  "themeColor": "#6A7E97",
+      "template": "02-sage-stripes",
+  "themeColor": "#dfb3b5",
   "title": "Convite de Batismo - Carminho Novais",
   "description": "Junte-se a nós para celebrar este dia especial. Sábado, 30 de Maio de 2026.",
   "baseUrl": "https://baptismo-carminho.thenovais.com",
   "tipoEvento": "Batismo",
-  "nomeCrianca": "Carminho Novais",
-  "dataHora": "Sábado, 30 de Maio de 2026 às 11H00",
+  "nomeCrianca": "Carminho<br>Novais",
+  "dataHora": "Sábado, 30 de Maio de 2026<br>às 11H00",
   "cerimonia": {
     "nome": "Igreja Matriz de Barcelos",
     "morada": "Rua Dr. Miguel Fonseca, Barcelos",
