@@ -24,11 +24,18 @@ fs.readdirSync(buildDir).forEach(instance => {
         const rawData = fs.readFileSync(dataPath, 'utf-8');
         const data = JSON.parse(rawData);
 
-        // Guarda os dados para o Índice ANTES de verificar o cache
-        // Assim o Índice tem sempre a lista completa
+        // Extrai o domínio limpo para o preview do WhatsApp
+        let cleanDomain = 'website.com';
+        if (data.baseUrl) {
+            cleanDomain = data.baseUrl.replace(/^https?:\/\//, '').split('/')[0];
+        }
+
+        // Guarda os dados cruciais para o Índice ANTES de verificar o cache
         listaInstancias.push({
             pasta: instance,
             titulo: data.title || instance,
+            descricao: data.description || 'Sem descrição',
+            dominio: cleanDomain,
             template: data.template || 'Desconhecido',
             tipo: data.tipoEvento || 'Evento'
         });
@@ -38,7 +45,7 @@ fs.readdirSync(buildDir).forEach(instance => {
             const lastState = fs.readFileSync(statePath, 'utf-8');
             if (rawData === lastState) {
                 console.log(`⏩ A ignorar '${instance}': sem alterações no data.json`);
-                return; // Pula a compilação desta instância e vai para a próxima
+                return; // Pula esta instância e vai para a próxima
             }
         }
 
@@ -83,16 +90,13 @@ fs.readdirSync(buildDir).forEach(instance => {
         const cssOutDir = path.join(instancePath, 'css');
         let scssFilesToCompile = [];
 
-        // Garante que a pasta css/ existe na instância
         if (!fs.existsSync(cssOutDir)) fs.mkdirSync(cssOutDir, { recursive: true });
 
-        // Procura os ficheiros SCSS (ignora os que começam por '_' pois são parciais)
         if (fs.existsSync(templateSassDir)) {
             scssFilesToCompile = fs.readdirSync(templateSassDir)
                 .filter(file => file.endsWith('.scss') && !file.startsWith('_'))
                 .map(file => path.join(templateSassDir, file));
         } else {
-            // Fallback: procura na raiz do template se a pasta sass/ não existir
             scssFilesToCompile = fs.readdirSync(templatePath)
                 .filter(file => file.endsWith('.scss') && !file.startsWith('_'))
                 .map(file => path.join(templatePath, file));
@@ -106,21 +110,16 @@ fs.readdirSync(buildDir).forEach(instance => {
                 const tempScssPath = path.join(instancePath, `temp_${fileName}`);
 
                 try {
-                    // Injeta a cor do data.json no topo do SCSS
                     let scssContent = fs.readFileSync(scssFilePath, 'utf8');
                     let injectedScss = `$themeColor: ${data.themeColor};\n\n` + scssContent;
                     
-                    // Cria ficheiro temporário
                     fs.writeFileSync(tempScssPath, injectedScss);
 
-                    // Paths para os imports
                     const coreSassPath = path.join(__dirname, 'core', 'sass');
                     const templateSassPath = fs.existsSync(templateSassDir) ? templateSassDir : templatePath;
                     
-                    // Compila usando o Sass
                     execSync(`npx sass "${tempScssPath}" "${cssOutPath}" --load-path="${coreSassPath}" --load-path="${templateSassPath}" --no-source-map --style=compressed`, { stdio: 'inherit' });
                     
-                    // Limpa o ficheiro temporário
                     fs.unlinkSync(tempScssPath);
                     console.log(`  🎨 CSS: compilado ${cssFileName}`);
 
@@ -130,14 +129,13 @@ fs.readdirSync(buildDir).forEach(instance => {
                 }
             });
         } else {
-            console.log(`  ⚠️  Aviso: Não foram encontrados ficheiros SCSS principais no template. O CSS não foi gerado.`);
+            console.log(`  ⚠️  Aviso: Não foram encontrados ficheiros SCSS principais no template.`);
         }
 
         // ==========================================
-        // 3. Copiar Imagens e outros Assets
+        // 3. Copiar Imagens e Assets
         // ==========================================
         const pastasParaCopiar = ['images', 'assets', 'js'];
-        
         pastasParaCopiar.forEach(nomePasta => {
             const origemPasta = path.join(templatePath, nomePasta);
             const destinoPasta = path.join(instancePath, nomePasta);
@@ -151,56 +149,86 @@ fs.readdirSync(buildDir).forEach(instance => {
         // ==========================================
         // 4. Salvar Estado e Criar Flag de Thumbnail
         // ==========================================
-        fs.writeFileSync(statePath, rawData); // Guarda a versão atual do data.json
-        fs.writeFileSync(thumbFlagPath, 'true'); // Avisa o Makefile para gerar a thumbnail
+        fs.writeFileSync(statePath, rawData);
+        fs.writeFileSync(thumbFlagPath, 'true');
 
         console.log(`✅ Instância '${instance}' preparada com sucesso!`);
     }
 });
 
 // ==========================================
-// 5. Gerar Ficheiro de Índice (index.html na raiz do build/)
+// 5. Gerar Ficheiro de Índice (Simulação WhatsApp)
 // ==========================================
-console.log(`\n🗂️ A gerar o índice de convites...`);
+console.log(`\n🗂️ A gerar o índice de convites (Modo WhatsApp Preview)...`);
+
+// Fallback de imagem em base64 (um retângulo cinza escrito "Gerando miniatura...") para quando o Chrome ainda não rodou.
+const imgFallback = "this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22630%22%20style%3D%22background%3A%23e5e7eb%22%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20font-family%3D%22system-ui,%20sans-serif%22%20font-size%3D%2240%22%20fill%3D%22%239ca3af%22%3EA%20gerar%20miniatura...%3C%2Ftext%3E%3C%2Fsvg%3E'";
+
 const indexHtmlContent = `
 <!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Índice de Convites - Builder</title>
+    <title>Índice de Convites</title>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; background: #f4f4f5; color: #333; padding: 40px 20px; margin: 0; }
-        .container { max-width: 800px; margin: 0 auto; }
-        h1 { border-bottom: 2px solid #e4e4e7; padding-bottom: 10px; margin-bottom: 30px; }
-        .grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #e4e4e7; }
-        .card h2 { margin: 0 0 10px 0; font-size: 1.2rem; color: #111827; }
-        .card p { margin: 5px 0; font-size: 0.9rem; color: #6b7280; }
-        .tag { display: inline-block; background: #e0e7ff; color: #4338ca; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 500; margin-bottom: 10px;}
-        .links { margin-top: 15px; display: flex; gap: 10px; }
-        .links a { text-decoration: none; color: white; background: #10b981; padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; font-weight: 500; text-align: center; flex: 1; transition: background 0.2s; }
-        .links a.thumb-link { background: #6366f1; }
-        .links a:hover { opacity: 0.9; }
-        .empty { color: #6b7280; font-style: italic; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: #e5ddd5; color: #111b21; padding: 40px 20px; margin: 0; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        h1 { color: #111b21; padding-bottom: 10px; margin-bottom: 30px; text-align: center;}
+        
+        .grid { display: grid; gap: 30px; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+        
+        /* Simulação Cartão WhatsApp */
+        .card-wrapper { text-decoration: none; display: flex; flex-direction: column; transition: transform 0.2s; background: transparent; }
+        .card-wrapper:hover { transform: translateY(-3px); }
+        
+        .wa-preview {
+            background: #f0f2f5;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #d1d5db;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .wa-image { width: 100%; aspect-ratio: 1200 / 630; background: #e5e7eb; position: relative; border-bottom: 1px solid #e2e8f0; }
+        .wa-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        
+        .wa-text { padding: 12px 14px; background: #f0f2f5; }
+        .wa-title { font-size: 15px; font-weight: 600; color: #111b21; margin: 0 0 3px 0; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+        .wa-desc { font-size: 14px; color: #667781; margin: 0 0 4px 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.3; }
+        .wa-domain { font-size: 12px; color: #8696a0; margin: 0; text-transform: lowercase; }
+        
+        /* Informação Extra (Fora do Preview) */
+        .meta-info { margin-top: 10px; display: flex; justify-content: space-between; font-size: 0.85rem; color: #555; padding: 0 5px; }
+        .tag { background: #dcf8c6; color: #128C7E; padding: 2px 8px; border-radius: 12px; font-weight: 600; font-size: 0.75rem; }
+        
+        .empty { color: #667781; font-style: italic; text-align: center; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📱 Convites Gerados</h1>
+        <h1>📱 Convites Prontos</h1>
         ${listaInstancias.length > 0 ? `
         <div class="grid">
             ${listaInstancias.map(inst => `
-            <div class="card">
-                <span class="tag">${inst.tipo}</span>
-                <h2>${inst.titulo}</h2>
-                <p><strong>Pasta:</strong> /${inst.pasta}</p>
-                <p><strong>Template:</strong> ${inst.template}</p>
-                <div class="links">
-                    <a href="${inst.pasta}/" target="_blank">Abrir Convite</a>
-                    <a href="${inst.pasta}/thumbnail.html" class="thumb-link" target="_blank">Ver Thumbnail</a>
+            <a href="${inst.pasta}/" class="card-wrapper" target="_blank" title="Abrir convite: ${inst.titulo}">
+                <div class="wa-preview">
+                    <div class="wa-image">
+                        <img src="${inst.pasta}/images/thumbnail.png" alt="Thumbnail" onerror="${imgFallback}">
+                    </div>
+                    <div class="wa-text">
+                        <h2 class="wa-title">${inst.titulo}</h2>
+                        <p class="wa-desc">${inst.descricao}</p>
+                        <p class="wa-domain">${inst.dominio}</p>
+                    </div>
                 </div>
-            </div>
+                <div class="meta-info">
+                    <span>📁 /${inst.pasta}</span>
+                    <span class="tag">${inst.template}</span>
+                </div>
+            </a>
             `).join('')}
         </div>
         ` : '<p class="empty">Nenhum convite encontrado na pasta build/.</p>'}
