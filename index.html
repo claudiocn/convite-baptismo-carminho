@@ -21,7 +21,6 @@
     <title>Convite de Batismo - Carminho Novais</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Allura&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -59,26 +58,28 @@
                 </div>
             </div>
             
-            <div class="confirmation-footer">
-                <p>
-                    CONFIRMAR PRESENÇA ATÉ 15 DE MAIO<br>
-                    <span class="small-text">
-                        <a href="https://wa.me/351927070805" class="whatsapp-link">Cláudio 927 070 805</a> &nbsp;|&nbsp; 
-                        <a href="https://wa.me/351925802578" class="whatsapp-link">Tânia 925 802 578</a>
-                    </span>
-                </p>
+            <div class="confirmation-footer" id="dynamic-rsvp">
+                <p id="rsvp-title">CONFIRMAR PRESENÇA ATÉ 15 DE MAIO</p>
+                
+                <div id="rsvp-buttons" class="rsvp-buttons-container" style="display: none;">
+                    <button id="btn-confirmado" class="btn-rsvp" onclick="enviarResposta('confirmado')">Vou estar presente</button>
+                    <button id="btn-recusado" class="btn-rsvp" onclick="enviarResposta('recusado')">Não poderei ir</button>
+                </div>
+                <p id="rsvp-feedback" class="small-text" style="margin-top: 8px; font-weight: 500;"></p>
+
+                <div id="rsvp-fallback" class="small-text" style="margin-top: 5px;">
+                    <a href="https://wa.me/351927070805" class="whatsapp-link">Cláudio 927 070 805</a>  |  
+                    <a href="https://wa.me/351925802578" class="whatsapp-link">Tânia 925 802 578</a>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        // --- ANIMAÇÕES DA INTERFACE ---
         const card = document.getElementById('main-card');
         function revealCard() { card.classList.add('reveal'); }
-
-        document.fonts.ready.then(() => {
-            setTimeout(revealCard, 100);
-        });
-
+        document.fonts.ready.then(() => { setTimeout(revealCard, 100); });
         setTimeout(revealCard, 600);
 
         function toggleDetails(id, element) {
@@ -90,6 +91,70 @@
             } else {
                 details.classList.add('open');
                 arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // --- LÓGICA DO CONVITE (NANO ID) ---
+        const params = new URLSearchParams(window.location.search);
+        const convidadoId = params.get('id');
+
+        const btnConfirmado = document.getElementById('btn-confirmado');
+        const btnRecusado = document.getElementById('btn-recusado');
+        const feedbackText = document.getElementById('rsvp-feedback');
+
+        if (convidadoId) {
+            // Esconde os contactos e mostra os botões de resposta
+            document.getElementById('rsvp-fallback').style.display = 'none';
+            document.getElementById('rsvp-buttons').style.display = 'flex';
+
+            // Regista a visualização e vai buscar o estado atual
+            fetch(`/api/rsvp?id=${convidadoId}`)
+                .then(res => {
+                    if (!res.ok) throw new Error('ID Inválido');
+                    return res.json();
+                })
+                .then(dados => atualizarInterface(dados.status))
+                .catch(err => {
+                    // Reverte para o fallback se o ID não existir no KV
+                    document.getElementById('rsvp-buttons').style.display = 'none';
+                    document.getElementById('rsvp-fallback').style.display = 'block';
+                    console.error("Erro no RSVP:", err);
+                });
+        }
+
+        function atualizarInterface(status) {
+            btnConfirmado.classList.remove('active');
+            btnRecusado.classList.remove('active');
+            
+            if (status === 'confirmado') {
+                btnConfirmado.classList.add('active');
+                feedbackText.innerText = "Resposta registada: Confirmado! Obrigado.";
+            } else if (status === 'recusado') {
+                btnRecusado.classList.add('active');
+                feedbackText.innerText = "Resposta registada: Não poderá ir.";
+            } else {
+                feedbackText.innerText = "";
+            }
+        }
+
+        async function enviarResposta(novoStatus) {
+            feedbackText.innerText = "A guardar...";
+
+            try {
+                const resposta = await fetch('/api/rsvp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: convidadoId, status: novoStatus })
+                });
+
+                if (resposta.ok) {
+                    const dados = await resposta.json();
+                    atualizarInterface(dados.status);
+                } else {
+                    feedbackText.innerText = "Erro ao guardar. Tenta novamente.";
+                }
+            } catch (erro) {
+                feedbackText.innerText = "Erro de ligação. Verifica a internet.";
             }
         }
     </script>

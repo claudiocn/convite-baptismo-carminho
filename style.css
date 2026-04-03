@@ -217,3 +217,38 @@ body {
     padding-left: 25%;
   }
 }
+
+/* --- NOVOS ESTILOS DO RSVP (BOTÕES NANO ID) --- */
+.rsvp-buttons-container {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.btn-rsvp {
+  background: transparent;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Estado Ativo (Selecionado) */
+.btn-rsvp.active {
+  background: #ffffff;
+  color: #dfb3b5; /* Usa a cor de fundo do cartão para fazer contraste */
+  font-weight: 700;
+}
+
+/* Feedback tátil simples em mobile */
+.btn-rsvp:active {
+  transform: scale(0.95);
+}
