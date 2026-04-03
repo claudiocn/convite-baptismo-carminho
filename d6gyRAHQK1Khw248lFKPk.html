@@ -10,68 +10,66 @@
         [x-cloak] { display: none !important; }
         body { background-color: #f8fafc; font-family: 'Montserrat', sans-serif; }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="p-4 md:p-8 text-slate-700">
+<body class="p-2 md:p-8 text-slate-700">
 
     <div class="max-w-6xl mx-auto" x-data="adminPanel()" x-init="fetchData()">
-        <header class="mb-6 flex justify-between items-center">
+        <header class="mb-6 flex justify-between items-center px-2 md:px-0">
             <div>
-                <h1 class="text-xl font-semibold">Tracking de Convites</h1>
-                <p class="text-sm text-slate-500">Baptismo da Carminho Novais</p>
+                <h1 class="text-lg md:text-xl font-bold">Tracking de Convites</h1>
+                <p class="text-xs md:text-sm text-slate-500">Baptismo da Carminho Novais</p>
             </div>
-            <button @click="fetchData()" class="bg-white border border-slate-300 px-3 py-1.5 rounded-lg shadow-sm hover:bg-slate-50 text-sm transition">
+            <button @click="fetchData()" class="bg-white border border-slate-300 px-3 py-1.5 rounded-lg shadow-sm hover:bg-slate-50 text-xs md:text-sm transition font-medium">
                 Atualizar
             </button>
         </header>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 text-center">
-            <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-200">
-                <span class="block text-[10px] text-slate-400 uppercase tracking-wide">Total</span>
-                <span class="text-xl font-semibold" x-text="lista.length"></span>
+        <div class="grid grid-cols-4 gap-2 md:gap-4 mb-6 text-center px-2 md:px-0">
+            <div class="bg-white p-2 md:p-3 rounded-lg shadow-sm border border-slate-200">
+                <span class="block text-[9px] md:text-[10px] text-slate-400 uppercase tracking-wide font-bold">Total</span>
+                <span class="text-lg md:text-xl font-bold" x-text="lista.length"></span>
             </div>
-            <div class="bg-green-50 p-3 rounded-lg shadow-sm border border-green-200">
-                <span class="block text-[10px] text-green-600 uppercase tracking-wide">Confirmados</span>
-                <span class="text-xl font-semibold text-green-700" x-text="lista.filter(i => i.status === 'confirmado').length"></span>
+            <div class="bg-green-50 p-2 md:p-3 rounded-lg shadow-sm border border-green-200">
+                <span class="block text-[9px] md:text-[10px] text-green-600 uppercase tracking-wide font-bold">Sim</span>
+                <span class="text-lg md:text-xl font-bold text-green-700" x-text="lista.filter(i => i.status === 'confirmado').length"></span>
             </div>
-            <div class="bg-red-50 p-3 rounded-lg shadow-sm border border-red-200">
-                <span class="block text-[10px] text-red-600 uppercase tracking-wide">Recusados</span>
-                <span class="text-xl font-semibold text-red-700" x-text="lista.filter(i => i.status === 'recusado').length"></span>
+            <div class="bg-red-50 p-2 md:p-3 rounded-lg shadow-sm border border-red-200">
+                <span class="block text-[9px] md:text-[10px] text-red-600 uppercase tracking-wide font-bold">Não</span>
+                <span class="text-lg md:text-xl font-bold text-red-700" x-text="lista.filter(i => i.status === 'recusado').length"></span>
             </div>
-            <div class="bg-slate-100 p-3 rounded-lg shadow-sm border border-slate-300">
-                <span class="block text-[10px] text-slate-500 uppercase tracking-wide">Vistos</span>
-                <span class="text-xl font-semibold text-slate-700" x-text="lista.filter(i => i.visto).length"></span>
+            <div class="bg-slate-100 p-2 md:p-3 rounded-lg shadow-sm border border-slate-300">
+                <span class="block text-[9px] md:text-[10px] text-slate-500 uppercase tracking-wide font-bold">Vistos</span>
+                <span class="text-lg md:text-xl font-bold text-slate-700" x-text="lista.filter(i => i.visto).length"></span>
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-md border border-slate-200 overflow-hidden">
+        <div class="bg-white rounded-lg shadow-md border border-slate-200 overflow-x-auto">
             <table class="w-full text-left border-collapse text-sm">
-                <thead class="bg-slate-100 text-slate-500 text-[10px] uppercase tracking-wider hidden md:table-header-group">
+                <thead class="bg-slate-100 text-slate-500 text-[10px] uppercase tracking-wider">
                     <tr>
-                        <th class="px-4 py-2">Convidado / Família</th>
-                        <th class="px-4 py-2">Estado</th>
-                        <th class="px-4 py-2 text-center">Vistas</th>
-                        <th class="px-4 py-2">Última Visita</th>
-                        <th class="px-4 py-2">Prioridade</th>
+                        <th class="px-3 py-3 md:px-4 md:py-2">Convidado</th>
+                        <th class="px-3 py-3 md:px-4 md:py-2 text-center">Estado</th>
+                        <th class="px-3 py-3 md:px-4 md:py-2 text-center">Vistas</th>
+                        <th class="hidden md:table-cell px-4 py-2">Última Visita</th>
+                        <th class="hidden md:table-cell px-4 py-2">Prioridade</th>
                     </tr>
                 </thead>
                 
                 <template x-for="item in listaOrdenada" :key="item.id">
-                    <tbody class="border-b border-slate-200 md:border-slate-100 block md:table-row-group">
-                        
-                        <tr class="hover:bg-slate-50 transition cursor-pointer flex flex-col md:table-row py-2 md:py-0" @click="toggleRow(item.id)">
+                    <tbody class="border-b border-slate-100">
+                        <tr class="hover:bg-slate-50 transition cursor-pointer" @click="toggleRow(item.id)">
                             
-                            <td class="px-4 py-2 flex justify-between items-center md:table-cell">
-                                <span class="md:hidden text-[10px] font-semibold text-slate-400 uppercase">Convidado</span>
-                                <div class="text-right md:text-left">
-                                    <div class="text-slate-800 font-medium md:font-normal" x-text="item.nome_convite || item.nome"></div>
-                                    <div class="text-[10px] text-slate-400" x-text="item.id"></div>
-                                </div>
+                            <td class="px-3 py-3 md:px-4 md:py-2">
+                                <div class="text-slate-800 font-medium" x-text="item.nome_convite || item.nome"></div>
+                                <div class="hidden md:block text-[10px] text-slate-400 font-mono mt-0.5" x-text="item.id"></div>
                             </td>
                             
-                            <td class="px-4 py-2 flex justify-between items-center md:table-cell border-t border-slate-50 md:border-none">
-                                <span class="md:hidden text-[10px] font-semibold text-slate-400 uppercase">Estado</span>
-                                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider font-medium" 
+                            <td class="px-3 py-3 md:px-4 md:py-2 text-center">
+                                <span class="md:hidden text-lg" 
+                                      x-text="item.status === 'confirmado' ? '✅' : (item.status === 'recusado' ? '❌' : '⏳')">
+                                </span>
+                                <span class="hidden md:inline-flex px-2 py-0.5 rounded text-[10px] uppercase tracking-wider font-bold" 
                                       :class="{
                                           'bg-green-100 text-green-700': item.status === 'confirmado',
                                           'bg-red-100 text-red-700': item.status === 'recusado',
@@ -81,53 +79,65 @@
                                 </span>
                             </td>
                             
-                            <td class="px-4 py-2 flex justify-between items-center md:table-cell border-t border-slate-50 md:border-none md:text-center text-slate-500">
-                                <span class="md:hidden text-[10px] font-semibold text-slate-400 uppercase">Vistas</span>
-                                <span x-text="item.historico_vistas?.length || 0"></span>
-                            </td>
+                            <td class="px-3 py-3 md:px-4 md:py-2 text-center font-medium text-slate-500" x-text="item.historico_vistas?.length || 0"></td>
                             
-                            <td class="px-4 py-2 flex justify-between items-center md:table-cell border-t border-slate-50 md:border-none text-xs text-slate-500">
-                                <span class="md:hidden text-[10px] font-semibold text-slate-400 uppercase">Última Visita</span>
-                                <span x-text="formatarDataHora(item.historico_vistas?.[item.historico_vistas.length - 1])"></span>
-                            </td>
+                            <td class="hidden md:table-cell px-4 py-2 text-xs text-slate-500" x-text="formatarDataHora(item.historico_vistas?.[item.historico_vistas.length - 1])"></td>
                             
-                            <td class="px-4 py-2 flex justify-between items-center md:table-cell border-t border-slate-50 md:border-none">
-                                <span class="md:hidden text-[10px] font-semibold text-slate-400 uppercase">Prioridade</span>
-                                <span class="text-[10px] px-2 py-0.5 rounded border" 
+                            <td class="hidden md:table-cell px-4 py-2">
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded border" 
                                       :class="item.tipo === 'Mandatório' ? 'border-orange-200 text-orange-600 bg-orange-50' : 'border-slate-200 text-slate-400'"
                                       x-text="item.tipo">
                                 </span>
                             </td>
                         </tr>
                         
-                        <tr x-show="expandedId === item.id" x-cloak class="block md:table-row bg-slate-50 md:border-t border-dashed border-slate-200">
-                            <td colspan="5" class="block md:table-cell px-4 py-4 border-l-2 md:border-l-2 border-indigo-400">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <tr x-show="expandedId === item.id" x-cloak class="bg-slate-50 border-t border-dashed border-slate-200">
+                            <td colspan="5" class="px-4 py-4 md:px-6 border-l-2 md:border-l-4 border-indigo-400">
+                                
+                                <div class="mb-5 bg-white p-2 md:p-3 rounded-lg border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-sm overflow-hidden">
+    <div class="flex-1 min-w-0"> <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Link Único do Convidado</p>
+        <code class="text-xs text-indigo-600 block break-all md:break-normal md:truncate" x-text="`https://baptismo-carminho.thenovais.com/?id=${item.id}`"></code>
+    </div>
+    <button @click.stop="copiarLink(item.id)" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 px-4 py-2 rounded text-xs font-bold transition whitespace-nowrap flex justify-center items-center w-full md:w-auto">
+        <span x-show="linkCopiado !== item.id">📋 Copiar Link</span>
+        <span x-show="linkCopiado === item.id" class="text-green-600">✅ Copiado!</span>
+    </button>
+</div>
+
+                                <div class="md:hidden flex flex-wrap gap-2 mb-5 pb-5 border-b border-slate-200">
+                                    <span class="text-[10px] bg-slate-200 text-slate-600 px-2 py-1 rounded font-mono border border-slate-300">ID: <span x-text="item.id"></span></span>
+                                    <span class="text-[10px] px-2 py-1 rounded font-bold border" :class="item.tipo === 'Mandatório' ? 'border-orange-200 text-orange-600 bg-orange-50' : 'border-slate-200 text-slate-500 bg-slate-100'" x-text="item.tipo"></span>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                                     <div>
-                                        <h4 class="text-[10px] text-slate-400 uppercase tracking-wider mb-2">Histórico de Acessos</h4>
-                                        <ul class="text-xs space-y-1 max-h-32 overflow-y-auto pr-2">
-                                            <template x-for="data in item.historico_vistas" :key="data">
-                                                <li class="flex justify-between border-b border-slate-100 pb-1">
-                                                    <span x-text="formatarDataHora(data)"></span>
-                                                    <span class="text-slate-400">visto</span>
+                                        <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3 flex justify-between">
+                                            Histórico de Acessos 
+                                            <span class="md:hidden font-normal text-slate-400 normal-case">Último: <span x-text="formatarDataHora(item.historico_vistas?.[item.historico_vistas.length - 1])"></span></span>
+                                        </h4>
+                                        <ul class="text-xs space-y-2 max-h-32 overflow-y-auto pr-2">
+                                            <template x-for="data in [...(item.historico_vistas || [])].reverse()" :key="data">
+                                                <li class="flex justify-between border-b border-slate-200 pb-1.5">
+                                                    <span class="font-medium text-slate-600" x-text="formatarDataHora(data)"></span>
+                                                    <span class="text-slate-400">👀 visualizou</span>
                                                 </li>
                                             </template>
                                             <template x-if="!item.historico_vistas?.length">
-                                                <li class="text-slate-400 italic">Nenhum acesso registado.</li>
+                                                <li class="text-slate-400 italic">Nenhum acesso registado até ao momento.</li>
                                             </template>
                                         </ul>
                                     </div>
                                     <div>
-                                        <h4 class="text-[10px] text-slate-400 uppercase tracking-wider mb-2">Logs de Resposta</h4>
-                                        <ul class="text-xs space-y-1">
-                                            <template x-for="resp in item.historico_respostas" :key="resp.data">
-                                                <li class="flex justify-between border-b border-slate-100 pb-1">
-                                                    <span x-text="formatarDataHora(resp.data)"></span>
-                                                    <span class="uppercase text-[10px] font-medium" :class="resp.status === 'confirmado' ? 'text-green-600' : 'text-red-600'" x-text="resp.status"></span>
+                                        <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3">Logs de Resposta</h4>
+                                        <ul class="text-xs space-y-2">
+                                            <template x-for="resp in [...(item.historico_respostas || [])].reverse()" :key="resp.data">
+                                                <li class="flex justify-between border-b border-slate-200 pb-1.5">
+                                                    <span class="font-medium text-slate-600" x-text="formatarDataHora(resp.data)"></span>
+                                                    <span class="uppercase text-[10px] font-bold" :class="resp.status === 'confirmado' ? 'text-green-600' : 'text-red-600'" x-text="resp.status"></span>
                                                 </li>
                                             </template>
                                             <template x-if="!item.historico_respostas?.length">
-                                                <li class="text-slate-400 italic">Ainda sem respostas registadas.</li>
+                                                <li class="text-slate-400 italic">Ainda sem alterações de estado.</li>
                                             </template>
                                         </ul>
                                     </div>
@@ -145,6 +155,8 @@
             return {
                 lista: [],
                 expandedId: null,
+                linkCopiado: null, // Controla o estado visual do botão de copiar
+                
                 async fetchData() {
                     try {
                         const res = await fetch('/api/admin');
@@ -153,15 +165,33 @@
                         console.error("Erro ao carregar dados", e);
                     }
                 },
+                
                 get listaOrdenada() {
                     return [...this.lista].sort((a, b) => {
                         if (a.tipo === b.tipo) return 0;
                         return a.tipo === 'Mandatório' ? -1 : 1;
                     });
                 },
+                
                 toggleRow(id) {
                     this.expandedId = this.expandedId === id ? null : id;
                 },
+
+                // Função para copiar o link
+                copiarLink(id) {
+                    const url = `https://baptismo-carminho.thenovais.com/?id=${id}`;
+                    navigator.clipboard.writeText(url).then(() => {
+                        this.linkCopiado = id;
+                        // Volta ao estado normal ao fim de 2.5 segundos
+                        setTimeout(() => {
+                            if (this.linkCopiado === id) this.linkCopiado = null;
+                        }, 2500);
+                    }).catch(err => {
+                        console.error('Falha ao copiar:', err);
+                        alert("Não foi possível copiar o link automaticamente.");
+                    });
+                },
+                
                 formatarDataHora(isoString) {
                     if (!isoString) return 'Nunca';
                     const data = new Date(isoString);
