@@ -18,9 +18,9 @@ Icon
 # A configuração abaixo ignora apenas o que é GERADO automaticamente,
 # garantindo que o teu data.json vai para o GitHub.
 
-build/*/*.html
-build/*/css/
-build/*/temp_*.scss
+#build/*/*.html
+#build/*/css/
+#build/*/temp_*.scss
 
 # Se as imagens na pasta build forem APENAS copiadas dos templates e 
 # geradas pelo Chrome (thumbnail), podes descomentar a linha abaixo. 
