@@ -113,7 +113,21 @@
                     if (!res.ok) throw new Error('ID Inválido');
                     return res.json();
                 })
-                .then(dados => atualizarInterface(dados.status))
+                .then(dados => {
+                    // NOVA PARTE: Personaliza o título com inteligência gramatical
+                    if (dados.nome_convite) {
+                        const tituloRsvp = document.getElementById('rsvp-title');
+                        
+                        // Deteta se o nome sugere plural baseando-se na tua lista
+                        const ePlural = / e |Avós|Tios|família|nós/i.test(dados.nome_convite);
+                        const verbo = ePlural ? 'confirmem' : 'confirma';
+
+                        tituloRsvp.innerHTML = `${dados.nome_convite}, por favor ${verbo} a presença até 15 de Maio`;
+                        tituloRsvp.style.textTransform = "none";
+                    }
+
+                    atualizarInterface(dados.status);
+                })
                 .catch(err => {
                     // Reverte para o fallback se o ID não existir no KV
                     document.getElementById('rsvp-buttons').style.display = 'none';
