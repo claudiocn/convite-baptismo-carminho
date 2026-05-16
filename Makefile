@@ -14,3 +14,8 @@ all:
 		--virtual-time-budget=5000 \
 		"file://$(shell pwd)/$(HTML_FILE)"
 	@echo "✅ Sucesso: $(OUTPUT_IMG)"
+
+deploy:
+	@echo "🚀 A deployar para Cloudflare Pages..."
+	npx wrangler pages deploy . --project-name=019d3502-115d-797f-9123-c08ed8244382
+	@echo "✅ Deploy concluído!"
